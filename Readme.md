@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Соколов](https://up.htmlacademy.ru/javascript/11/user/275301).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Буртылев](https://htmlacademy.ru/profile/id3341).
 
 ---
 

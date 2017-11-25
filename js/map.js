@@ -125,4 +125,63 @@ var getSimilarOffers = function () { // генерируем массив
   return offers;
 };
 
+var fragment = document.createDocumentFragment();
+var template = document.querySelector('template').content;
+var mapPins = document.querySelector('.map__pins');
 
+var getFeatures = function (features) { // получаем список доступных удобств
+  var feature = '';
+  for (var i = 0; i < features.length; i++) {
+    feature += '<li class="feature feature--' + features[i] + '"></li>';
+  }
+  return feature;
+}
+
+var getPin = function (arrData) { // получаем метку объекта c данными массива
+  var mapPin = template.querySelector('.map__pin').cloneNode(true);
+  mapPin.querySelector('img').src = arrData.author.avatar;
+  mapPin.style.left = arrData.location.x + 'px';
+  mapPin.style.top = arrData.location.y + 'px';
+  return mapPin;
+};
+
+var getPins = function (offers) { // добавляем метки на карту
+  for (var i = 0; i < offers.length; i++) {
+    fragment.appendChild(getPin(offers[i]));
+  }
+  mapPins.appendChild(fragment);
+}
+
+var getCard = function (arrData) { // получаем карточку объета с данными массива
+  var mapCard = template.querySelector('.map__card').cloneNode(true);
+  var offerType = ''; // пустая строка для типа недвижимости
+  mapCard.querySelector('h3').textContent = arrData.offer.title;
+  mapCard.querySelector('small').textContent = arrData.offer.address;
+  mapCard.querySelector('.popup__price').textContent = arrData.offer.price;
+  if (arrData.offer.type === 'flat') {
+    offerType = 'Квартира';
+  } else if (arrData.offer.type === 'house') {
+    offerType = 'Дом';
+  } else if (arrData.offer.type === 'bungalo') {
+    offerType = 'Бунгало';
+  } else {
+    offerType = arrData.offer.type;
+  }
+
+  mapCard.querySelector('h4').textContent = offerType;
+  mapCard.querySelector('h4 + p').textContent = arrData.offer.rooms + ' для ' + arrData.offer.guests + '  гостей';
+  mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + arrData.offer.checkin + ', выезд до ' + arrData.offer.checkout;
+  mapCard.querySelector('.popup__features').innerHTML = getFeatures(arrData.offer.features);
+  mapCard.querySelector('.popup__features + p').textContent = arrData.offer.description;
+
+  return mapCard;
+};
+
+var getOffers = function (offers, i) { // заполняем объявления данными из массива
+  var offer = getCard(offers[i]);
+  map.appendChild(offer);
+};
+
+var items = getSimilarOffers(8);
+getPins(items);
+getOffers(items, 0);

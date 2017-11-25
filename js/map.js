@@ -65,21 +65,16 @@ var getRandomValue = function (min, max) { // поиск случайного ч
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var getRandomArr = function (arr) { // поиск случайного элемента массива
+var getRandomArrayElement = function (arr) { // поиск случайного элемента массива
   var randomArr = arr[getRandomValue(0, arr.length - 1)];
   return randomArr;
 };
 
 var getOffersNames = function (names) { // функция перебора случайного заголовка из массива
   var offersNamesIndex = getRandomValue(0, names.length - 1);
-  var offerName = offersNames[offersNamesIndex];
-  offersNames.splice(offersNamesIndex, 1);
+  var offerName = names[offersNamesIndex];
+  names.splice(offersNamesIndex, 1);
   return offerName;
-};
-
-var getOffersTypes = function (types) { // функция перебора типов недвижимости
-  var offerType = getRandomArr(types);
-  return offerType;
 };
 
 var getOffersFeatures = function (feature) { // функция перебора услуг
@@ -91,36 +86,11 @@ var getOffersFeatures = function (feature) { // функция перебора 
   return offerFeature;
 };
 
-var getOffersCheckins = function (checkin) { // перебор времени заезда
-  var offerCheckin = getRandomArr(checkin);
-  return offerCheckin;
-};
-
-var getOffersCheckouts = function (checkouts) { // перебор времени выезда
-  var offerCheckout = getRandomArr(checkouts);
-  return offerCheckout;
-};
-
-var getRooms = function (min, max) { // перебор случайного количества комнат
-  var rooms = getRandomValue(min, max);
-  return rooms;
-};
-
-var getGuests = function (min, max) { // перебор случайного количества гостей
-  var guests = getRandomValue(min, max);
-  return guests;
-};
-
-var getPrice = function (min, max) { // перебор стоимости
-  var price = getRandomValue(min, max);
-  return price;
-};
-
 var locationX = getRandomValue(LOCATION.x.min, LOCATION.x.max); // случайная координата метки по Х
 var locationY = getRandomValue(LOCATION.y.min, LOCATION.y.max); // случайная координата метки по Y
 
 
-var offersData = function() {// наполнение массива данными
+var getOffersData = function() {// наполнение массива данными
   return {
     'author': {
       'avatar': 'img/avatars/user0' + getRandomValue(1, 8) + '.png'
@@ -129,12 +99,12 @@ var offersData = function() {// наполнение массива данным
     'offer': {
       'title': getOffersNames(offersNames),
       'address': 'locationX, locationY',
-      'price': getPrice(MIN_PRICE, MAX_PRICE),
-      'type': getOffersTypes(OFFERS_TYPES),
-      'rooms': getRooms(MIN_ROOMS, MAX_ROOMS),
-      'guests': getGuests(1, 4),
-      'checkin': getOffersCheckins(OFFERS_CHECKINS),
-      'checkout': getOffersCheckouts(OFFERS_CHECKOUTS),
+      'price': getRandomValue(MIN_PRICE, MAX_PRICE),
+      'type': getRandomArrayElement(OFFERS_TYPES),
+      'rooms': getRandomValue(MIN_ROOMS, MAX_ROOMS),
+      'guests': getRandomValue(1, 4),
+      'checkin': getRandomArrayElement(OFFERS_CHECKINS),
+      'checkout': getRandomArrayElement(OFFERS_CHECKOUTS),
       'features': getOffersFeatures(OFFERS_FEATURES),
       'description': '',
       'photos': []
@@ -147,10 +117,12 @@ var offersData = function() {// наполнение массива данным
   };
 };
 
-var similarOffers = function () { // генерируем массив 
+var getSimilarOffers = function () { // генерируем массив
   var offers = [];
   for (var i = 0; i < OFFERS_QUANTITY; i++) {
-    offers.push(offersData());
+    offers.push(getOffersData());
   }
   return offers;
 };
+
+

@@ -90,7 +90,7 @@ var locationX = getRandomValue(LOCATION.x.min, LOCATION.x.max); // случай�
 var locationY = getRandomValue(LOCATION.y.min, LOCATION.y.max); // случайная координата метки по Y
 
 
-var getOffersData = function() {// наполнение массива данными
+var getOffersData = function () { // наполнение массива данными
   return {
     'author': {
       'avatar': 'img/avatars/user0' + getRandomValue(1, 8) + '.png'
@@ -135,7 +135,7 @@ var getFeatures = function (features) { // получаем список дос�
     feature += '<li class="feature feature--' + features[i] + '"></li>';
   }
   return feature;
-}
+};
 
 var getPin = function (arrData) { // получаем метку объекта c данными массива
   var mapPin = template.querySelector('.map__pin').cloneNode(true);
@@ -150,7 +150,7 @@ var getPins = function (offers) { // добавляем метки на карт
     fragment.appendChild(getPin(offers[i]));
   }
   mapPins.appendChild(fragment);
-}
+};
 
 var getCard = function (arrData) { // получаем карточку объета с данными массива
   var mapCard = template.querySelector('.map__card').cloneNode(true);

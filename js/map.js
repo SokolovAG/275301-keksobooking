@@ -1,8 +1,5 @@
 'use strict';
 
-var map = document.querySelector('.map'); // удаляем класс
-map.classList.remove('map--faded');
-
 var OFFERS_NAMES = [ // массив загловков предложений
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
@@ -87,14 +84,14 @@ var getOffersFeatures = function (feature) { // функция перебора 
 };
 
 
-var getOffersData = function () { // наполнение массива данными
+var getOffersData = function (index) { // наполнение массива данными
 
   var locationX = getRandomValue(LOCATION.x.min, LOCATION.x.max); // случайная координата метки по Х
   var locationY = getRandomValue(LOCATION.y.min, LOCATION.y.max); // случайная координата метки по Y
 
   return {
     'author': {
-      'avatar': 'img/avatars/user0' + getRandomValue(1, 8) + '.png'
+      'avatar': 'img/avatars/user0' + (index + 1) + '.png'
     },
 
     'offer': {
@@ -121,14 +118,10 @@ var getOffersData = function () { // наполнение массива дан�
 var getSimilarOffers = function () { // генерируем массив
   var offers = [];
   for (var i = 0; i < OFFERS_QUANTITY; i++) {
-    offers.push(getOffersData());
+    offers.push(getOffersData(i));
   }
   return offers;
 };
-
-var fragment = document.createDocumentFragment();
-var template = document.querySelector('template').content;
-var mapPins = document.querySelector('.map__pins');
 
 var getFeatures = function (features) { // получаем список доступных удобств
   var feature = '';
@@ -139,7 +132,7 @@ var getFeatures = function (features) { // получаем список дос�
 };
 
 var getPin = function (arrData) { // получаем метку объекта c данными массива
-  var mapPin = template.querySelector('.map__pin').cloneNode(true);
+  var mapPin = document.querySelector('template').content.querySelector('.map__pin').cloneNode(true);
   mapPin.querySelector('img').src = arrData.author.avatar;
   mapPin.style.left = arrData.location.x + 'px';
   mapPin.style.top = arrData.location.y + 'px';
@@ -147,6 +140,8 @@ var getPin = function (arrData) { // получаем метку объекта 
 };
 
 var addPinsToMap = function (offers) { // добавляем метки на карту
+  var mapPins = document.querySelector('.map__pins');
+  var fragment = document.createDocumentFragment();
   for (var i = 0; i < offers.length; i++) {
     fragment.appendChild(getPin(offers[i]));
   }
@@ -154,7 +149,7 @@ var addPinsToMap = function (offers) { // добавляем метки на к�
 };
 
 var getCard = function (arrData) { // получаем карточку объета с данными массива
-  var mapCard = template.querySelector('.map__card').cloneNode(true);
+  var mapCard = document.querySelector('template').content.querySelector('.map__card').cloneNode(true);
   var offerType = ''; // пустая строка для типа недвижимости
   mapCard.querySelector('h3').textContent = arrData.offer.title;
   mapCard.querySelector('small').textContent = arrData.offer.address;
@@ -179,6 +174,8 @@ var getCard = function (arrData) { // получаем карточку объе
 };
 
 var renderOffers = function (offers, i) { // заполняем объявления данными из массива
+  var map = document.querySelector('.map'); // удаляем класс
+  map.classList.remove('map--faded');
   var offer = getCard(offers[i]);
   map.appendChild(offer);
 };

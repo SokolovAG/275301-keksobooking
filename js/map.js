@@ -86,11 +86,12 @@ var getOffersFeatures = function (feature) { // функция перебора 
   return offerFeature;
 };
 
-var locationX = getRandomValue(LOCATION.x.min, LOCATION.x.max); // случайная координата метки по Х
-var locationY = getRandomValue(LOCATION.y.min, LOCATION.y.max); // случайная координата метки по Y
-
 
 var getOffersData = function () { // наполнение массива данными
+
+  var locationX = getRandomValue(LOCATION.x.min, LOCATION.x.max); // случайная координата метки по Х
+  var locationY = getRandomValue(LOCATION.y.min, LOCATION.y.max); // случайная координата метки по Y
+
   return {
     'author': {
       'avatar': 'img/avatars/user0' + getRandomValue(1, 8) + '.png'
@@ -98,7 +99,7 @@ var getOffersData = function () { // наполнение массива дан�
 
     'offer': {
       'title': getOffersNames(offersNames),
-      'address': 'locationX, locationY',
+      'address': locationX + ',' + locationY,
       'price': getRandomValue(MIN_PRICE, MAX_PRICE),
       'type': getRandomArrayElement(OFFERS_TYPES),
       'rooms': getRandomValue(MIN_ROOMS, MAX_ROOMS),
@@ -145,7 +146,7 @@ var getPin = function (arrData) { // получаем метку объекта 
   return mapPin;
 };
 
-var getPins = function (offers) { // добавляем метки на карту
+var addPinsToMap = function (offers) { // добавляем метки на карту
   for (var i = 0; i < offers.length; i++) {
     fragment.appendChild(getPin(offers[i]));
   }
@@ -177,11 +178,11 @@ var getCard = function (arrData) { // получаем карточку объе
   return mapCard;
 };
 
-var getOffers = function (offers, i) { // заполняем объявления данными из массива
+var renderOffers = function (offers, i) { // заполняем объявления данными из массива
   var offer = getCard(offers[i]);
   map.appendChild(offer);
 };
 
 var items = getSimilarOffers(8);
-getPins(items);
-getOffers(items, 0);
+addPinsToMap(items);
+renderOffers(items, 0);

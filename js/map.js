@@ -174,8 +174,6 @@ var getCard = function (arrData) { // получаем карточку объе
 };
 
 var renderOffers = function (offers, i) { // заполняем объявления данными из массива
-  var map = document.querySelector('.map'); // удаляем класс
-  map.classList.remove('map--faded');
   var offer = getCard(offers[i]);
   map.appendChild(offer);
 };
@@ -183,3 +181,23 @@ var renderOffers = function (offers, i) { // заполняем объявлен
 var items = getSimilarOffers(8);
 addPinsToMap(items);
 renderOffers(items, 0);
+
+// Модуль 4. Подробности
+// Определяем необходимые перменные, с которыми будем работать
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var map = document.querySelector('.map');
+var pinMain = document.querySelector('.map__pin--main');
+var noticeForm = document.querySelector('.notice__form ');
+var popup = document.querySelector('.popup');
+var popupClose = document.querySelector('.popup__close');
+
+
+// обработка захвата захвата главного пина
+var onMainPinMouseup = function () {
+  map.classList.remove('map--faded');
+  noticeForm.classList.remove('notice__form--disabled');
+  renderOffers();
+};
+pinMain.addEventListener('mouseup', onMainPinMouseup);
+

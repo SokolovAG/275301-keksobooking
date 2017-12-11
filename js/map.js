@@ -178,10 +178,11 @@ var renderOffers = function (offers, i) { // заполняем объявлен
   map.appendChild(offer);
 };
 
+/*
 var items = getSimilarOffers(8);
 addPinsToMap(items);
 renderOffers(items, 0);
-
+*/
 // Модуль 4. Подробности
 // Определяем необходимые перменные, с которыми будем работать
 var ESC_KEYCODE = 27;
@@ -197,7 +198,7 @@ var popupClose = document.querySelector('.popup__close');
 var onMainPinMouseup = function () {
   map.classList.remove('map--faded');
   noticeForm.classList.remove('notice__form--disabled');
-  renderOffers();
+  getSimilarOffers();
 };
 pinMain.addEventListener('mouseup', onMainPinMouseup);
 
